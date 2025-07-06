@@ -34,7 +34,7 @@ const BannerData2 = {
 const HomePage = () => {
   return (
     <main className="overflow-x-hidden">
-      <Navbar />
+     
       <NavbarBanner />
       <Hero />
       <NumberCounter />

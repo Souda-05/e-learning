@@ -1,132 +1,350 @@
-import { delay } from "framer-motion";
-import { div, s, text } from "framer-motion/client";
-import React from "react";
-import Slider from "react-slick";
+import React, { useState, useEffect } from 'react';
 
-const TestimonialsData = [
+const TestimonialData = [
   {
     id: 1,
-    name: "Miss.X",
-    text: "a dedicated and passionate educator with over 8 years of experience in the field of computer science and web development. He holds a Master’s degree in Computer Applications and is a certified ReactJS and Front-End Development instructor. His interactive teaching style and deep subject knowledge help students build real-world skills effectively.",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIIMobhYWeEI337ODNBN28o7OBDYXNoPmflT-3ILqZEvCFTO7DIdGmXbA&s",
-    delay: 0.2,
+    name: "John Smith",
+    text: "This platform has completely transformed my learning experience. The tutors are incredibly knowledgeable and patient, always ready to help me understand complex concepts.",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Mathematics",
+    location: "New York, USA"
   },
   {
     id: 2,
-    name: "Miss.Y",
-    text: "a dedicated and passionate educator with over 8 years of experience in the field of computer science and web development. He holds a Master’s degree in Computer Applications and is a certified ReactJS and Front-End Development instructor. His interactive teaching style and deep subject knowledge help students build real-world skills effectively.",
-    img: "data:image/jpeg;base64,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",
-    delay: 0.5,
+    name: "Sarah Johnson",
+    text: "I've improved my grades significantly thanks to the personalized attention I received. The flexible scheduling is perfect for my busy lifestyle.",
+    img: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Physics",
+    location: "California, USA"
   },
   {
     id: 3,
-    name: "Miss.Z",
-    text: " a dedicated and passionate educator with over 8 years of experience in the field of computer science and web development. He holds a Master’s degree in Computer Applications and is a certified ReactJS and Front-End Development instructor. His interactive teaching style and deep subject knowledge help students build real-world skills effectively.",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHokcwkSpC9Kml9fF3CqLUDAVLNp9fAneIFg&s",
-    delay: 0.8,
+    name: "Michael Chen",
+    text: "The flexible scheduling made it possible for me to balance work and learning. Excellent service and professional tutors!",
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Computer Science",
+    location: "Toronto, Canada"
   },
   {
     id: 4,
-    name: "Mr.X",
-    text: "a dedicated and passionate educator with over 8 years of experience in the field of computer science and web development. He holds a Master’s degree in Computer Applications and is a certified ReactJS and Front-End Development instructor. His interactive teaching style and deep subject knowledge help students build real-world skills effectively.",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS6T6rwdnSuDEmUaH0hM1GaI2u-tbt-8ifiA&s",
-    delay: 1.1,
+    name: "Emily Davis",
+    text: "The one-on-one sessions helped me overcome my fear of public speaking. My confidence has improved tremendously.",
+    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "English Literature",
+    location: "London, UK"
   },
   {
     id: 5,
-    name: "Mr.Y",
-    text: "a dedicated and passionate educator with over 8 years of experience in the field of computer science and web development. He holds a Master’s degree in Computer Applications and is a certified ReactJS and Front-End Development instructor. His interactive teaching style and deep subject knowledge help students build real-world skills effectively.",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS6T6rwdnSuDEmUaH0hM1GaI2u-tbt-8ifiA&s",
-    delay: 1.1,
+    name: "Robert Wilson",
+    text: "Amazing tutors who really care about student success. The interactive lessons make learning enjoyable and effective.",
+    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Chemistry",
+    location: "Sydney, Australia"
+  },
+  {
+    id: 6,
+    name: "Maria Rodriguez",
+    text: "I struggled with calculus for years, but my tutor made it so much easier to understand. Thank you for your patience!",
+    img: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Calculus",
+    location: "Madrid, Spain"
+  },
+  {
+    id: 7,
+    name: "James Thompson",
+    text: "The quality of teaching is exceptional. I've learned more in 3 months than I did in a whole semester at school.",
+    img: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Biology",
+    location: "Chicago, USA"
+  },
+  {
+    id: 8,
+    name: "Lisa Anderson",
+    text: "Perfect for working professionals. The evening sessions fit perfectly with my schedule, and the progress is remarkable.",
+    img: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Business Studies",
+    location: "Berlin, Germany"
+  },
+  {
+    id: 9,
+    name: "David Brown",
+    text: "The interactive whiteboard and screen sharing made online learning feel like in-person tutoring. Highly recommend!",
+    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Statistics",
+    location: "Vancouver, Canada"
+  },
+  {
+    id: 10,
+    name: "Jennifer Lee",
+    text: "My SAT scores improved by 200 points after just 8 weeks of tutoring. The personalized study plan was game-changing.",
+    img: "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "SAT Prep",
+    location: "Los Angeles, USA"
+  },
+  {
+    id: 11,
+    name: "Alex Kumar",
+    text: "The coding bootcamp preparation was intense but rewarding. I landed my dream job at a tech company thanks to this platform.",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Programming",
+    location: "Mumbai, India"
+  },
+  {
+    id: 12,
+    name: "Sophie Martin",
+    text: "Learning French has never been easier. The conversational practice sessions are incredibly helpful for building confidence.",
+    img: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "French Language",
+    location: "Paris, France"
+  },
+  {
+    id: 13,
+    name: "Chris Taylor",
+    text: "The test preparation strategies were spot-on. I passed my professional certification exam on the first try!",
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Professional Cert",
+    location: "Austin, USA"
+  },
+  {
+    id: 14,
+    name: "Amanda White",
+    text: "The psychology tutoring helped me not just with grades but also with understanding human behavior in my daily life.",
+    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Psychology",
+    location: "Melbourne, Australia"
+  },
+  {
+    id: 15,
+    name: "Daniel Garcia",
+    text: "Engineering concepts became crystal clear with the help of visual aids and practical examples. Excellent teaching methodology!",
+    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Engineering",
+    location: "Barcelona, Spain"
+  },
+  {
+    id: 16,
+    name: "Rachel Green",
+    text: "The economics tutoring transformed my understanding of complex market theories. Now I'm pursuing my MBA with confidence.",
+    img: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=100&h=100&fit=crop&crop=face",
+    rating: 5,
+    subject: "Economics",
+    location: "Boston, USA"
   },
 ];
 
 const Testimonial = () => {
-  const setting = {
-    dots: true,
-    arrows: true,
-    infinite: true,
-    speed: 500,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    cssEase: "linear",
-    pauseOnHover: true,
-    pauseOnFocus: true,
-    responsive: [
-      {
-        breakpoint: 10000,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [view, setView] = useState('carousel');
+  const itemsPerPage = 3;
+
+  useEffect(() => {
+    if (isAutoPlaying && view === 'carousel') {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => 
+          prevIndex >= TestimonialData.length - itemsPerPage ? 0 : prevIndex + 1
+        );
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [isAutoPlaying, view]);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex >= TestimonialData.length - itemsPerPage ? 0 : prevIndex + 1
+    );
   };
-  return (
-    <div className="mb-10 py-5">
-      <div className="container">
-        {/* header section */}
-        <div className="space-y-4 p-6 text-center max-w-[600px] mx-auto mb-6">
-          <h1 className="uppercase font-semibold text-orange-600">
-            Our Testimonials
-          </h1>
-          <p className="font-semibold text-3xl">
-            What Our Students Say About Us
-          </p>
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex <= 0 ? TestimonialData.length - itemsPerPage : prevIndex - 1
+    );
+  };
+
+  const renderStars = (rating) => {
+    return [...Array(5)].map((_, index) => (
+      <span
+        key={index}
+        className={`inline-block w-4 h-4 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
+      >
+        ★
+      </span>
+    ));
+  };
+
+  const TestimonialCard = ({ testimonial }) => (
+    <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex space-x-1">
+          {renderStars(testimonial.rating)}
         </div>
-
-        {/* cards section */}
+        <div className="text-2xl text-blue-500 opacity-50">"</div>
+      </div>
+      
+      <p className="text-gray-700 mb-6 italic leading-relaxed">
+        "{testimonial.text}"
+      </p>
+      
+      <div className="flex items-center">
+        <img
+          src={testimonial.img}
+          alt={testimonial.name}
+          className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-blue-100"
+        />
         <div>
-          <Slider {...setting}>
-            {TestimonialsData.map((item, index) => {
-              return (
-                <div key={item.id}>
-                  <div className="flex flex-col gap-4 p-8 shadow-lg mx-4 rounded-xl bg-secondary/10">
-                    {/* upper section */}
-                    <div className="flex justify-start items-center gap-5">
-                      <img
-                        src={item.img}
-                        alt=""
-                        className="w-16 h-16 rounded-full"
-                      />
-                      <div>
-                        <p className="text-xl font-semibold text-black/80">
-                          {item.name}
-                        </p>
-                        <p>{item.name}</p>
-                      </div>
-                    </div>
-
-                    {/* bottom section  */}
-                    <div className="py-6 space-y-4">
-                      <p className="text-sm text-gray-500">{item.text}</p>
-                      <p className="">⭐⭐⭐⭐⭐</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </Slider>
+          <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+          <p className="text-sm text-blue-600 font-medium">{testimonial.subject}</p>
+          <p className="text-xs text-gray-500">{testimonial.location}</p>
         </div>
       </div>
     </div>
+  );
+
+  return (
+    <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">
+            What Our Students Say
+          </h2>
+          <p className="text-gray-600 max-w-3xl mx-auto mb-8">
+            Don't just take our word for it. Here's what our students from around the world have to say about their transformative learning experience.
+          </p>
+          
+          {/* View Toggle */}
+          <div className="flex justify-center mb-8">
+            <div className="bg-white rounded-lg p-1 shadow-md">
+              <button
+                onClick={() => setView('carousel')}
+                className={`px-6 py-2 rounded-md transition-all duration-200 ${
+                  view === 'carousel' 
+                    ? 'bg-blue-500 text-white shadow-md' 
+                    : 'text-gray-600 hover:text-blue-500'
+                }`}
+              >
+                Carousel View
+              </button>
+              <button
+                onClick={() => setView('grid')}
+                className={`px-6 py-2 rounded-md transition-all duration-200 ${
+                  view === 'grid' 
+                    ? 'bg-blue-500 text-white shadow-md' 
+                    : 'text-gray-600 hover:text-blue-500'
+                }`}
+              >
+                Grid View
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Carousel View */}
+        {view === 'carousel' && (
+          <div className="relative">
+            {/* Auto-play toggle */}
+            <div className="flex justify-center mb-6">
+              <button
+                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  isAutoPlaying 
+                    ? 'bg-green-100 text-green-700 hover:bg-green-200' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {isAutoPlaying ? '⏸️ Pause Auto-play' : '▶️ Resume Auto-play'}
+              </button>
+            </div>
+
+            <div className="overflow-hidden">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)` }}
+              >
+                {TestimonialData.map((testimonial) => (
+                  <div key={testimonial.id} className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                    <TestimonialCard testimonial={testimonial} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation Buttons */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:bg-blue-50"
+            >
+              <span className="text-2xl text-blue-500">‹</span>
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:bg-blue-50"
+            >
+              <span className="text-2xl text-blue-500">›</span>
+            </button>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {Array.from({ length: TestimonialData.length - itemsPerPage + 1 }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    index === currentIndex ? 'bg-blue-500 w-8' : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Grid View */}
+        {view === 'grid' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {TestimonialData.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
+        )}
+
+        {/* Statistics */}
+        <div className="mt-16 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className="text-3xl font-bold text-blue-600 mb-2">16+</div>
+              <div className="text-gray-600">Happy Students</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className="text-3xl font-bold text-green-600 mb-2">5.0</div>
+              <div className="text-gray-600">Average Rating</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className="text-3xl font-bold text-purple-600 mb-2">12</div>
+              <div className="text-gray-600">Countries</div>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className="text-3xl font-bold text-orange-600 mb-2">100%</div>
+              <div className="text-gray-600">Success Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
