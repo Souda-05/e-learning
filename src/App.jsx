@@ -9,7 +9,7 @@ import SignIn from "./pages/SignIn";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar/Navbar";
-
+import ContactUs from './pages/contact';
 const App = () => {
   return (
     <Router>
@@ -22,6 +22,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/resources" element={<Resources />} />
+      <Route path="/contact" element={<ContactUs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
