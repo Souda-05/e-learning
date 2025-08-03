@@ -334,8 +334,5 @@ const App = () => {
   return isLoggedIn ? <StudentPanel /> : <LoginForm />;
 };
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App;
->>>>>>> 91a161c888c5f9418739aa391daea5d56e173e3d
+
