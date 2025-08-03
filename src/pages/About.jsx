@@ -27,6 +27,67 @@ const About = () => {
         </section>
 
         <section>
+          <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#1976d2' }}>Meet Our Developers</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '1.5rem' }}>
+            <div style={{ 
+              padding: '2rem', 
+              backgroundColor: '#f8f9fa', 
+              borderRadius: '12px', 
+              border: '1px solid #e9ecef',
+              textAlign: 'center',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+            }}>
+              <img 
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjl8hk5e4jPa-jvec5qvJFBixTw19KivpoGA&s"
+                alt="Developer 1"
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  margin: '0 auto 1rem',
+                  objectFit: 'cover',
+                  border: '3px solid #1976d2'
+                }}
+              />
+              <h3 style={{ color: '#333', marginBottom: '0.5rem', fontSize: '1.3rem' }}>Snajida Khan Moulee</h3>
+              <p style={{ color: '#1976d2', fontWeight: '600', marginBottom: '1rem' }}>Full Stack Developer</p>
+              <p style={{ color: '#666', lineHeight: '1.5', fontSize: '0.95rem' }}>
+                Passionate about creating innovative educational technology solutions. 
+                Specializes in React, Node.js, and modern web development practices.
+              </p>
+            </div>
+            
+            <div style={{ 
+              padding: '2rem', 
+              backgroundColor: '#f8f9fa', 
+              borderRadius: '12px', 
+              border: '1px solid #e9ecef',
+              textAlign: 'center',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+            }}>
+              <img 
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGEzOGM68lPXzVUtGXvKUju4iEnF-0NGXmUg&s"
+                alt="Developer 2"
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  margin: '0 auto 1rem',
+                  objectFit: 'cover',
+                  border: '3px solid #1976d2'
+                }}
+              />
+              <h3 style={{ color: '#333', marginBottom: '0.5rem', fontSize: '1.3rem' }}>Souda Begum </h3>
+              <p style={{ color: '#1976d2', fontWeight: '600', marginBottom: '1rem' }}>Frontend Developer</p>
+              <p style={{ color: '#666', lineHeight: '1.5', fontSize: '0.95rem' }}>
+                Expert in user interface design and user experience optimization. 
+                Focuses on creating intuitive and engaging learning platforms.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
           <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#1976d2' }}>Why Choose Us</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
             <div style={{ padding: '1.5rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>

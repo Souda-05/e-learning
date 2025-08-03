@@ -118,38 +118,6 @@ const ForStudentsPage = () => {
     }
   ];
 
-  const assignments = [
-    {
-      course: "Advanced Mathematics",
-      title: "Calculus Problem Set #3",
-      dueDate: "2024-12-15",
-      status: "pending",
-      points: 100
-    },
-    {
-      course: "Computer Science",
-      title: "Python Programming Project",
-      dueDate: "2024-12-20",
-      status: "submitted",
-      points: 150
-    },
-    {
-      course: "Physics Mastery",
-      title: "Lab Report: Wave Mechanics",
-      dueDate: "2024-12-18",
-      status: "graded",
-      points: 85,
-      score: 78
-    },
-    {
-      course: "English Literature",
-      title: "Essay: Modern Poetry Analysis",
-      dueDate: "2024-12-22",
-      status: "pending",
-      points: 120
-    }
-  ];
-
   const renderStars = (rating) => {
     return [...Array(5)].map((_, index) => (
       <span key={index} className={`text-lg ${index < Math.floor(rating) ? 'text-yellow-400' : 'text-gray-300'}`}>
@@ -281,7 +249,7 @@ const ForStudentsPage = () => {
         <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">For Students</h1>
           <p className="text-xl md:text-2xl mb-8">
-            Access your courses, assignments, and learning resources all in one place
+            Discover our courses and learning resources to start your educational journey
           </p>
           <div className="flex flex-wrap gap-4">
             <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center">
@@ -304,20 +272,18 @@ const ForStudentsPage = () => {
         </div>
       </div>
 
-      {/* Navigation Tabs */}
+      {/* Navigation Tabs - Only courses and resources */}
       <div className="bg-white shadow-sm sticky top-0 z-40">
         <div className="container mx-auto px-4">
-          <div className="flex space-x-8 overflow-x-auto">
+          <div className="flex space-x-8">
             {[
               { id: 'courses', label: 'Available Courses', icon: '📚' },
-              { id: 'assignments', label: 'My Assignments', icon: '📝' },
-              { id: 'resources', label: 'Learning Resources', icon: '💡' },
-              { id: 'progress', label: 'My Progress', icon: '📊' }
+              { id: 'resources', label: 'Learning Resources', icon: '💡' }
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-colors whitespace-nowrap ${
+                className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-colors ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -346,54 +312,6 @@ const ForStudentsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {courses.map(course => (
                 <CourseCard key={course.id} course={course} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Assignments Tab */}
-        {activeTab === 'assignments' && (
-          <div>
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">My Assignments</h2>
-              <p className="text-gray-600">
-                Keep track of your assignments, due dates, and submission status.
-              </p>
-            </div>
-            
-            <div className="space-y-4">
-              {assignments.map((assignment, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">{assignment.title}</h3>
-                      <p className="text-sm text-gray-600">{assignment.course}</p>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      assignment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      assignment.status === 'submitted' ? 'bg-blue-100 text-blue-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
-                      {assignment.status.charAt(0).toUpperCase() + assignment.status.slice(1)}
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>📅 Due: {assignment.dueDate}</span>
-                      <span>💯 Points: {assignment.points}</span>
-                      {assignment.score && (
-                        <span className="text-green-600 font-semibold">
-                          Score: {assignment.score}/{assignment.points}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                      {assignment.status === 'pending' ? 'Start Assignment' : 'View Details'}
-                    </button>
-                  </div>
-                </div>
               ))}
             </div>
           </div>
@@ -429,96 +347,10 @@ const ForStudentsPage = () => {
                   </ul>
                   
                   <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                    Access Resource
+                    Learn More
                   </button>
                 </div>
               ))}
-            </div>
-          </div>
-        )}
-
-        {/* Progress Tab */}
-        {activeTab === 'progress' && (
-          <div>
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-4">My Progress</h2>
-              <p className="text-gray-600">
-                Track your learning progress and achievements across all courses.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Overall Progress */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Overall Progress</h3>
-                <div className="space-y-3">
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm text-gray-600">Courses Completed</span>
-                      <span className="text-sm font-semibold">3/6</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-blue-600 h-2 rounded-full" style={{width: '50%'}}></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm text-gray-600">Average Grade</span>
-                      <span className="text-sm font-semibold">87%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-green-600 h-2 rounded-full" style={{width: '87%'}}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Achievements */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Achievements</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">🏆</span>
-                    <div>
-                      <div className="text-sm font-semibold">Top Performer</div>
-                      <div className="text-xs text-gray-500">Scored 95% in Math</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">🎯</span>
-                    <div>
-                      <div className="text-sm font-semibold">Perfect Attendance</div>
-                      <div className="text-xs text-gray-500">100% class attendance</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-2xl mr-3">📚</span>
-                    <div>
-                      <div className="text-sm font-semibold">Quick Learner</div>
-                      <div className="text-xs text-gray-500">Completed 3 courses</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Recent Activity */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
-                <div className="space-y-3">
-                  <div className="text-sm">
-                    <div className="font-semibold">Submitted Assignment</div>
-                    <div className="text-gray-500">Python Project - 2 hours ago</div>
-                  </div>
-                  <div className="text-sm">
-                    <div className="font-semibold">Completed Lesson</div>
-                    <div className="text-gray-500">Physics Ch. 5 - 1 day ago</div>
-                  </div>
-                  <div className="text-sm">
-                    <div className="font-semibold">Quiz Completed</div>
-                    <div className="text-gray-500">Math Quiz #4 - 2 days ago</div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         )}

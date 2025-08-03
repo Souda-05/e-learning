@@ -104,12 +104,12 @@ const Footer = () => {
               </h1>
               <ul className="flex flex-col gap-3">
                 <li>
-                  <a href="#" className="hover:text-secondary duration-200">
+                  <a href="/" className="hover:text-secondary duration-200">
                     Home
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-secondary duration-200">
+                  <a href="/about" className="hover:text-secondary duration-200">
                     About
                   </a>
                 </li>
